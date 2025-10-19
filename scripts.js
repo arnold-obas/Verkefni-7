@@ -105,7 +105,7 @@ function toggleFinished(index) {
  * Skrifar út stöðu verkefnalistans í console.
  */
 function stats() {
-  if (todoList.length === 0) {  // Þetta telur hvað það eru mörg kláruð, ókláruð og samtals verkefni
+  if (todoList.length === 0) {  // Þetta telur hvað það eru mörg lokið, ólokið og samtals verkefni
     console.log('Engin verkefni í listanum');
     return;
   }
@@ -121,8 +121,8 @@ function stats() {
     }
    }
 
-  console.log('Kláruð verkefni: ' + lokið);
-  console.log('Ókláruð verkefni: ' + ólokið);
+  console.log('Lokið verkefni: ' + lokið);
+  console.log('Ólokið verkefni: ' + ólokið);
   console.log('Samtals: ' + todoList.length);
 }
 
@@ -137,7 +137,7 @@ function clear() {
 
   const staðfest = confirm('Viltu eyða öllum kláruðum verkefnum?');
   if (!staðfest) {
-    console.log('Hætt við að eyða');
+    console.log('Hætt við');
     return;
   }
 
@@ -147,7 +147,7 @@ function clear() {
     }
   }
 
-  console.log('Kláruðum verkefnum hefur verið eytt');
+  console.log('Kláruð verkefni hafa verið eytt');
 }
 
 /**
