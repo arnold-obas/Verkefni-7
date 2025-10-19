@@ -39,14 +39,37 @@ const todoList = [
  * @returns {number} Ný stærð verkefnalistans.
  */
 function createTodoItem(input) {
-  /* TODO útfæra */
+  if (typeof input !== 'string') { //segir semsagrt að ef inputtið sé ekki string þá lætur console vita
+   console.log('Þetta er ólöglegt inntak!');
+   return;
+  }
+
+const nýttVerkefni = {text: input, finished: false} // Þetta býr til verkefni og bætir svo við í (todoList) listanum
+const verkefnaFjöldi = todoList.push(nýttVerkefni)
+return verkefnaFjöldi;
 }
 
 /**
  * Birtir verkefnalistann í console.
  */
 function list() {
-  /* TODO útfæra */
+  if (todoList.length === 0) { // Þetta lætur mann vita ef það er engin verkefni í listanum 
+    console.log('Engin verkefni í listanum');
+    return;
+  }
+
+  for (let i = 0; i < todoList.length; i++) { // Býrð til loop sem hækkar töluna fyrir "i" um eitt svo lengi sem að hún er minni en todolistanum. (fer í gegnum gegnum listanum)
+    const verkefni = todoList[i];
+    let status;
+
+    if (verkefni.finished === true) {
+      status = '[x]';
+    } else {
+      status = '[ ]';
+    }
+
+    console.log(status + ' ' + verkefni.text);
+  }
 }
 
 /**
@@ -56,26 +79,97 @@ function list() {
  * @returns {boolean} - `true` ef breyting tókst, annars `false`.
  */
 function toggleFinished(index) {
-  /* TODO útfæra */
+  if (typeof index !== 'number') { // tékkar hvort það sé tala eða ekki
+    console.log('Þetta er ekki tala')
+    return;
+  }
+
+  if (index < 0 || index >= todoList.length) {  // tékkar hvort talan í listanum sé til
+    console.log('Þetta númer er ekki til');
+    return;
+  }
+
+  let verkefni = todoList[index];
+  
+  if (verkefni.finished === true) {  // Segir þér hvort það er búin að klára verkefnið eða ekki
+    verkefni.finished = false;
+    console.log('Verkefnið ' + verkefni.text + ' er ólokið');
+  } else {
+    verkefni.finished = true;
+    console.log('Verkefnið ' + verkefni.text + ' er lokið');
+  }
 }
+  
 
 /**
  * Skrifar út stöðu verkefnalistans í console.
  */
 function stats() {
-  /* TODO útfæra */
+  if (todoList.length === 0) {  // Þetta telur hvað það eru mörg kláruð, ókláruð og samtals verkefni
+    console.log('Engin verkefni í listanum');
+    return;
+  }
+
+  let lokið = 0;
+  let ólokið = 0;
+
+  for (let i = 0; i < todoList.length; i++) {
+    if (todoList[i].finished === true) {
+      lokið++;
+    } else {
+      ólokið++;
+    }
+   }
+
+  console.log('Kláruð verkefni: ' + lokið);
+  console.log('Ókláruð verkefni: ' + ólokið);
+  console.log('Samtals: ' + todoList.length);
 }
 
 /**
- * Tæma verkefnalistann.
+ * Tæma verkefnalistan.
  */
 function clear() {
-  /* TODO útfæra */
+    if (todoList.length === 0) {
+    console.log('Listinn er tómur það er ekkert tils að eyða');
+    return;
+  }
+
+  const staðfest = confirm('Viltu eyða öllum kláruðum verkefnum?');
+  if (!staðfest) {
+    console.log('Hætt við að eyða');
+    return;
+  }
+
+  for (let i = todoList.length - 1; i >= 0; i--) { // Fer afturábak í gegnum listann og eyðir öllum kláruðum verkefnum
+    if (todoList[i].finished === true) {
+      todoList.splice(i, 1);
+    }
+  }
+
+  console.log('Kláruðum verkefnum hefur verið eytt');
 }
 
 /**
  * Leiðbeint ferli til að bæta verkefnum við, sýnir síðan lista og stöðu.
  */
 function start() {
-  /* TODO útfæra */
+  while (true) {
+    let input = prompt('Sláðu inn nýtt verkefni (ýttu svo á cancel til að hætta): ');
+
+    if (input === null) {
+      // Ef maður ýtir á cancel
+      console.log('Hættur við');
+      list();
+      stats();
+      break;
+    }
+
+    if (input.trim() === '') {
+      alert('Verkefni verður að hafa texta!');
+      continue;
+    }
+
+    createTodoItem(input);
+  }
 }
